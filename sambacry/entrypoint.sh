@@ -1,15 +1,16 @@
 #!/bin/bash
 set -e
 
-# Samba 로그 디렉터리 생성
 mkdir -p /var/log/samba /run/samba
 
-# smbd 백그라운드 시작
-smbd --foreground --no-process-group &
-SMB_PID=$!
+# 웹 UI를 먼저 백그라운드로 시작 (포트 8081 선점)
+python3 /web_status.py &
+WEB_PID=$!
+echo "[*] Web UI started (PID $WEB_PID) on port 8081"
 
-echo "[*] smbd started (PID $SMB_PID)"
-echo "[*] Starting web UI on port 8081..."
+# 잠깐 대기 후 smbd 시작
+sleep 1
 
-# 웹 UI 포그라운드 실행
-python3 /web_status.py
+# smbd 포그라운드 실행
+echo "[*] Starting smbd..."
+exec smbd --foreground --no-process-group

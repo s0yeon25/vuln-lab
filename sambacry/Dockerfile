@@ -12,9 +12,8 @@ COPY entrypoint.sh /entrypoint.sh
 
 RUN mkdir -p /share && chmod 777 /share
 RUN useradd -m sambacry && echo "sambacry:password" | chpasswd
+RUN sed -i 's/\r//' /entrypoint.sh && chmod +x /entrypoint.sh
 
-RUN chmod +x /entrypoint.sh
-
-EXPOSE 139 445 8081
+EXPOSE 139 445 9081
 
 CMD ["/entrypoint.sh"]

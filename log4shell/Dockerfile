@@ -1,6 +1,10 @@
 FROM ghcr.io/christophetd/log4shell-vulnerable-app:latest
 
-EXPOSE 8080
+USER root
+RUN apk add --no-cache python3
 
-HEALTHCHECK --interval=10s --timeout=5s --retries=5 \
-  CMD curl -f http://localhost:8080/ || exit 1
+COPY web_status.py /web_status.py
+
+EXPOSE 9080
+
+CMD sh -c "SERVER_PORT=18080 java -jar /app/spring-boot-application.jar & python3 /web_status.py"

@@ -10,7 +10,7 @@ services:
     build: ./log4shell
     container_name: vuln-log4shell
     ports:
-      - "8080:8080"   # 취약한 Spring 앱 (HTTP)
+      - "9080:9080"   # 취약한 Spring 앱 (HTTP)
     networks:
       - vuln-net
     restart: unless-stopped
@@ -22,7 +22,7 @@ services:
     ports:
       - "1139:139"    # NetBIOS
       - "1445:445"    # SMB
-      - "8081:8081"   # 웹 상태 UI
+      - "9081:9081"   # 웹 상태 UI
     networks:
       - vuln-net
     restart: unless-stopped
@@ -33,7 +33,7 @@ services:
     container_name: vuln-ssh
     ports:
       - "2222:22"     # SSH (취약한 OpenSSH 7.7)
-      - "8082:8082"   # 웹 상태 UI
+      - "9082:9082"   # 웹 상태 UI
     networks:
       - vuln-net
     restart: unless-stopped
