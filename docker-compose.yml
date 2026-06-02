@@ -5,27 +5,35 @@ networks:
     driver: bridge
 
 services:
+  # ─── CVE-2021-44228 Log4Shell ───────────────────────────────────────────────
   log4shell:
-    image: ghcr.io/christophetd/log4shell-vulnerable-app
+    build: ./log4shell
     container_name: vuln-log4shell
     ports:
-      - "8080:8080"
+      - "8080:8080"   # 취약한 Spring 앱 (HTTP)
     networks:
       - vuln-net
+    restart: unless-stopped
 
+  # ─── CVE-2017-7494 SambaCry ─────────────────────────────────────────────────
   sambacry:
     build: ./sambacry
     container_name: vuln-sambacry
     ports:
-      - "1139:139"
-      - "1445:445"
+      - "1139:139"    # NetBIOS
+      - "1445:445"    # SMB
+      - "8081:8081"   # 웹 상태 UI
     networks:
       - vuln-net
+    restart: unless-stopped
 
+  # ─── CVE-2018-15473 SSH User Enumeration ────────────────────────────────────
   ssh-enum:
     build: ./ssh-enum
     container_name: vuln-ssh
     ports:
-      - "2222:22"
+      - "2222:22"     # SSH (취약한 OpenSSH 7.7)
+      - "8082:8082"   # 웹 상태 UI
     networks:
       - vuln-net
+    restart: unless-stopped
