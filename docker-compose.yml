@@ -1,0 +1,31 @@
+version: '3.8'
+
+networks:
+  vuln-net:
+    driver: bridge
+
+services:
+  log4shell:
+    image: ghcr.io/christophetd/log4shell-vulnerable-app
+    container_name: vuln-log4shell
+    ports:
+      - "8080:8080"
+    networks:
+      - vuln-net
+
+  sambacry:
+    build: ./sambacry
+    container_name: vuln-sambacry
+    ports:
+      - "1139:139"
+      - "1445:445"
+    networks:
+      - vuln-net
+
+  ssh-enum:
+    build: ./ssh-enum
+    container_name: vuln-ssh
+    ports:
+      - "2222:22"
+    networks:
+      - vuln-net
