@@ -61,13 +61,13 @@ Gmail 앱 비밀번호 발급
 
 `os_nuclei_scanner.py` 에서 아래 부분 수정
 ```python
-SENDER_EMAIL = "본인Gmail@gmail.com"
-APP_PASSWORD  = "발급받은16자리앱비밀번호"
+SENDER_EMAIL = "이메일아이디@gmail.com"
+APP_PASSWORD  = "16자리비밀번호"
 ```
 
 수신자 이메일 설정 (파일 하단 main 블록)
 ```python
-send_email_report(nuclei_results, "받는사람이메일@gmail.com")
+send_email_report(nuclei_results, "이메일아이디@gmail.com")
 ```
 
 ## 각 취약점 테스트
