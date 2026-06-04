@@ -28,6 +28,48 @@ docker compose up --build -d
 | SambaCry UI | http://localhost:9081 | SMB 서비스 상태 및 분석 가이드 |
 | SSH Enum UI | http://localhost:9082 | SSH 서비스 상태 및 분석 가이드 |
 
+## 스캐너 실행
+
+### 1. 포트 및 서비스 스캔 (scanner.py)
+
+nmap을 이용해 열린 포트, 서비스 종류, OS 정보를 출력합니다.
+
+```bash
+python scanner.py
+```
+
+### 2. CVE 탐지 및 조치 보고서 (os_nuclei_scanner.py)
+
+TTL 기반 OS 추정, Nuclei CVE 자동 탐지, 관리자 조치 보고서 출력, 이메일 자동 전송을 수행합니다.
+
+```bash
+python os_nuclei_scanner.py
+```
+
+실행 시 아래 순서로 동작합니다.
+1. TTL 값으로 OS 추정 (TTL 64 → Linux / TTL 128 → Windows)
+2. Nuclei로 CVE 자동 탐지
+3. 탐지된 CVE 요약 출력
+4. CVE별 조치 방법 보고서 출력
+5. 관리자 이메일로 보고서 자동 전송
+
+#### 이메일 전송 설정
+
+Gmail 앱 비밀번호 발급
+1. `https://myaccount.google.com/security` 에서 2단계 인증 활성화
+2. `https://myaccount.google.com/apppasswords` 에서 앱 비밀번호 발급 (16자리)
+
+`os_nuclei_scanner.py` 에서 아래 부분 수정
+```python
+SENDER_EMAIL = "본인Gmail@gmail.com"
+APP_PASSWORD  = "발급받은16자리앱비밀번호"
+```
+
+수신자 이메일 설정 (파일 하단 main 블록)
+```python
+send_email_report(nuclei_results, "받는사람이메일@gmail.com")
+```
+
 ## 각 취약점 테스트
 
 ### Log4Shell (CVE-2021-44228)
